@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Form Validation</title>
+  <script>
+    function validateForm() {
+      const firstName = document.forms["userForm"]["firstName"].value.trim();
+      const lastName = document.forms["userForm"]["lastName"].value.trim();
+      const email = document.forms["userForm"]["email"].value.trim();
+      const state = document.forms["userForm"]["state"].value;
+      const dob = document.forms["userForm"]["dob"].value;
+      const terms = document.forms["userForm"]["terms"].checked;
+
+      // Name validation: single word, all letters
+      const nameRegex = /^[A-Za-z]+$/;
+      if (!nameRegex.test(firstName)) {
+        alert("First name must contain only letters and be a single word.");
+        return false;
+      }
+      if (!nameRegex.test(lastName)) {
+        alert("Last name must contain only letters and be a single word.");
+        return false;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+      }
+
+      // State selection
+      if (state === "") {
+        alert("Please select a state.");
+        return false;
+      }
+
+      // Age validation
+      const birthDate = new Date(dob);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      if (age <= 18) {
+        alert("You must be older than 18.");
+        return false;
+      }
+
+      // Terms checkbox
+      if (!terms) {
+        alert("You must agree to the terms.");
+        return false;
+      }
+
+      alert("Form submitted successfully!");
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <form name="userForm" onsubmit="return validateForm();">
+    <label>First Name: <input type="text" name="firstName"></label><br><br>
+    <label>Last Name: <input type="text" name="lastName"></label><br><br>
+    <label>Email ID: <input type="text" name="email"></label><br><br>
+    <label>State:
+      <select name="state">
+        <option value="">Select State</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Gujarat">Gujarat</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+        <option value="Delhi">Delhi</option>
+        <!-- Add other states as needed -->
+      </select>
+    </label><br><br>
+    <label>Date of Birth: <input type="date" name="dob"></label><br><br>
+    <label><input type="checkbox" name="terms"> I agree to Terms</label><br><br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>

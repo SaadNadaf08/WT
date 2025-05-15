@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Company Info Fetcher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+
+    button {
+      background: linear-gradient(to bottom, #8fdb6a, #4CAF50);
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      color: white;
+      box-shadow: 2px 2px 5px gray;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    /* .output-cloud {
+      margin-top: 30px;
+      padding: 20px;
+      background: #66a3d2;
+      border-radius: 50%;
+      width: 400px;
+      height: 250px;
+      margin-left: auto;
+      margin-right: auto;
+      color: white;
+      position: relative;
+    }
+
+    .output-cloud pre {
+      background: white;
+      color: black;
+      display: inline-block;
+      padding: 5px;
+    } */
+
+    img {
+      margin-top: 10px;
+      max-width: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Enter Name of Company:</h2>
+  <input type="text" id="companyInput" placeholder="Enter Company Name Here">
+  <br>
+  <button onclick="getDetails()">Get Details</button>
+
+  <div class="output-cloud" id="output">
+    <div id="companyName"></div>
+    <div id="companyLogo"></div>
+    <!-- <p>Should be visible on webpage</p>
+    <p>From api:</p>
+    <pre>https://api.api-ninjas.com/v1/logo</pre> -->
+  </div>
+
+  <script>
+    async function getDetails() {
+      const company = document.getElementById('companyInput').value;
+      const apiUrl = `https://api.api-ninjas.com/v1/logo?name=${company}`;
+
+      const response = await fetch(apiUrl, {
+        headers: { 'X-Api-Key': '9Ym8LJ57SV6UE4666fXctQ==8a8mFmHCea52T9mf' }  // Replace YOUR_API_KEY with your actual key
+      });
+
+      const data = await response.json();
+      const outputName = document.getElementById('companyName');
+      const outputLogo = document.getElementById('companyLogo');
+
+      if (data.length > 0 && data[0].image) {
+        outputName.innerHTML = `<h3>${company}</h3>`;
+        outputLogo.innerHTML = `<img src="${data[0].image}" alt="Company Logo">`;
+      } else {
+        outputName.innerHTML = `<h3>${company}</h3>`;
+        outputLogo.innerHTML = `<p>Logo not found.</p>`;
+      }
+    }
+  </script>
+
+</body>
+</html>

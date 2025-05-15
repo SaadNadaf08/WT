@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test GET and POST</title>
+</head>
+<body>
+  <h2>GET Request Test</h2>
+  <button onclick="getGreet()">Click for GET</button>
+  <p id="get-response"></p>
+
+  <hr>
+
+  <h2>POST Request Test</h2>
+  <form id="postForm">
+    <input type="text" id="name" placeholder="Enter your name" required />
+    <button type="submit">Send POST</button>
+  </form>
+  <p id="post-response"></p>
+
+  <script>
+    function getGreet() {
+      fetch('/api/greet')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('get-response').innerText = data.message;
+        });
+    }
+
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+
+      fetch('/api/greet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: name })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('post-response').innerText = data.message;
+      });
+    });
+  </script>
+</body>
+</html>

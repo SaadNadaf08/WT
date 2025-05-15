@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Form Validation</title>
+    <style>
+        .error { color: red; font-size: 0.9em; }
+        form { max-width: 400px; margin: 20px; padding: 20px; border: 1px solid #ccc; }
+        label { display: block; margin: 15px 0; }
+        input { width: 100%; padding: 8px; margin-top: 5px; }
+        button { padding: 10px 20px; background: #4CAF50; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <form onsubmit="return validateForm()">
+        <h2>Student Information</h2>
+        
+        <label>PRN:
+            <input type="text" id="prn">
+            <div id="prnError" class="error"></div>
+        </label>
+
+        <label>Full Name:
+            <input type="text" id="fullName">
+            <div id="nameError" class="error"></div>
+        </label>
+
+        <label>Percentage:
+            <input type="number" step="0.01" id="percentage">
+            <div id="percentError" class="error"></div>
+        </label>
+
+        <label>Email ID:
+            <input type="email" id="email">
+            <div id="emailError" class="error"></div>
+        </label>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function validateForm() {
+            // Clear previous errors
+            document.querySelectorAll('.error').forEach(e => e.textContent = '');
+            let isValid = true;
+
+            // PRN Validation (numbers only)
+            const prn = document.getElementById('prn').value.trim();
+            if (!/^\d+$/.test(prn)) {
+                document.getElementById('prnError').textContent = 
+                    'PRN must contain numbers only';
+                isValid = false;
+            }
+
+            // Full Name Validation (max 3 words)
+            const fullName = document.getElementById('fullName').value.trim();
+            if (!/^[A-Za-z]+(?:\s[A-Za-z]+){0,2}$/.test(fullName)) {
+                document.getElementById('nameError').textContent = 
+                    'Name must be 1-3 words (letters only)';
+                isValid = false;
+            }
+
+            // Percentage Validation
+            const percentage = document.getElementById('percentage').value.trim();
+            if (isNaN(percentage)) {
+                document.getElementById('percentError').textContent = 
+                    'Please enter a valid number';
+                isValid = false;
+            } else if (parseFloat(percentage) <= 40) {
+                document.getElementById('percentError').textContent = 
+                    'Percentage must be greater than 40';
+                isValid = false;
+            }
+
+            // Email Validation
+            const email = document.getElementById('email').value.trim();
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('emailError').textContent = 
+                    'Please enter a valid email address';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

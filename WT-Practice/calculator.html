@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Calculator</title>
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; }
+    input, select, button { width: 100%; margin: 0.5rem 0; padding: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h2>Basic Calculator</h2>
+  <input type="number" id="num1" placeholder="Enter first number">
+  <input type="number" id="num2" placeholder="Enter second number">
+  <button onclick="calculate('add')">Add</button>
+  <button onclick="calculate('sub')">Subtract</button>
+  <button onclick="calculate('mul')">Multiply</button>
+  <button onclick="calculate('div')">Divide</button>
+
+  <h2>Celsius to Fahrenheit</h2>
+  <input type="number" id="celsius" placeholder="Enter Celsius">
+  <button onclick="convertTemp()">Convert</button>
+
+  <h2>Currency Converter (INR ↔ USD)</h2>
+  <input type="number" id="amount" placeholder="Enter amount">
+  <select id="conversion">
+    <option value="inrToUsd">INR to USD</option>
+    <option value="usdToInr">USD to INR</option>
+  </select>
+  <button onclick="convertCurrency()">Convert</button>
+
+  <h3>Result:</h3>
+  <div id="result" style="border: 1px solid #ccc; padding: 1rem;"></div>
+
+  <script>
+    function calculate(op) {
+      const a = parseFloat(document.getElementById('num1').value);
+      const b = parseFloat(document.getElementById('num2').value);
+      let result;
+      if (isNaN(a) || isNaN(b)) {
+        result = 'Please enter valid numbers.';
+      } else {
+        switch (op) {
+          case 'add': result = a + b; break;
+          case 'sub': result = a - b; break;
+          case 'mul': result = a * b; break;
+          case 'div': result = b !== 0 ? a / b : 'Cannot divide by zero'; break;
+        }
+      }
+      document.getElementById('result').innerText = result;
+    }
+
+    function convertTemp() {
+      const celsius = parseFloat(document.getElementById('celsius').value);
+      const result = isNaN(celsius) ? 'Enter valid temperature.' : (celsius * 9/5) + 32 + ' °F';
+      document.getElementById('result').innerText = result;
+    }
+
+    function convertCurrency() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const type = document.getElementById('conversion').value;
+      const rate = 83; // 1 USD = 83 INR (example rate)
+      let result;
+      if (isNaN(amount)) {
+        result = 'Enter a valid amount.';
+      } else if (type === 'inrToUsd') {
+        result = (amount / rate).toFixed(2) + ' USD';
+      } else {
+        result = (amount * rate).toFixed(2) + ' INR';
+      }
+      document.getElementById('result').innerText = result;
+    }
+  </script>
+</body>
+</html>
